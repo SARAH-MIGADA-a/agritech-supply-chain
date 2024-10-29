@@ -1,31 +1,38 @@
-import { useState } from 'react';
-import { agritech_supply_chain_backend } from 'declarations/agritech-supply-chain-backend';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { theme } from './styles/theme';
+import Layout from './components/common/Layout';
+import Dashboard from './components/common/Dashboard';
+import FarmerDashboard from './components/farmer/FarmerDashboard';
+import BuyerDashboard from './components/buyer/BuyerDashboard';
+import ProductListing from './components/farmer/ProductListing';
+import ProductCatalog from './components/buyer/ProductCatalog';
+import TrackingSystem from './components/logistics/TrackingSystem';
+import Analytics from './components/analytics/Analytics';
+import Login from './components/common/Login';
+import { AuthProvider, useAuth } from './contexts/AuthContext'; // Import AuthProvider
 
-function App() {
-  const [greeting, setGreeting] = useState('');
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    agritech_supply_chain_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
-
+const App = () => {
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <AuthProvider> {/* Wrap the entire app with AuthProvider */}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
+            <Route path="/farmer/products" element={<ProductListing />} />
+            <Route path="/buyer/dashboard" element={<BuyerDashboard />} />
+            <Route path="/buyer/catalog" element={<ProductCatalog />} />
+            <Route path="/tracking" element={<TrackingSystem />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
