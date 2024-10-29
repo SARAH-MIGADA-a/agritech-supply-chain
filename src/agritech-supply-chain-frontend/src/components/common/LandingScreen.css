@@ -1,0 +1,73 @@
+/* Landing Screen Styles */
+/* Landing Screen Styles */
+.landing-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Use full viewport height */
+    width: 100vw; /* Use full viewport width */
+    background-image: url('/assets/images/farm-background.jpg');
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repetition */
+    color: white;
+    text-align: center; /* Center text for better alignment */
+    position: relative; /* For positioning the logo */
+    overflow: hidden; /* Hide overflow for any child elements */
+    margin: 0; /* Remove default margin */
+}
+
+/* Other styles remain the same as provided previously */
+
+
+/* Headline Styles */
+.headline {
+    font-size: 3rem;
+    animation: fadeIn 3s ease-in-out;
+}
+
+/* Subheadline Styles */
+.subheadline {
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+
+/* Navigation Styles */
+.navigation {
+    margin-top: 30px; /* Space above the button */
+}
+
+/* Navigation Button Styles */
+.navigation button {
+    padding: 20px 40px;
+    font-size: 1rem;
+    background-color: rgb(247, 51, 51);
+    color: white;
+    border: none;
+    border-radius: 65px; /* Smooth edges */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+.navigation button:hover {
+    background-color: rgb(87, 48, 30); /* Change hover color */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Logo Styles */
+.logo {
+    position: absolute; /* Positioning the logo */
+    top: 2px; /* Adjust distance from the top */
+    left: 2px; /* Adjust distance from the left */
+    width: 120px; /* Adjust size of the logo */
+}
