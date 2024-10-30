@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { Grid, Card, CardContent, Typography, Button, AppBar, Toolbar, IconButton, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
-import MenuIcon from '@mui/icons-material/Menu'; // Menu icon for a responsive design
-import AccountCircle from '@mui/icons-material/AccountCircle'; // Icon for user profile
-import BarChartIcon from '@mui/icons-material/BarChart'; // Icon for analytics
-import NotificationsIcon from '@mui/icons-material/Notifications'; // Icon for notifications
-import ToggleOff from '@mui/icons-material/ToggleOff'; // Toggle off icon
-import ToggleOn from '@mui/icons-material/ToggleOn'; // Toggle on icon
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import ToggleOff from '@mui/icons-material/ToggleOff';
+import ToggleOn from '@mui/icons-material/ToggleOn';
 
 const Dashboard = () => {
   const [darkMode, setDarkMode] = useState(false);
 
+  // Toggle function for dark mode
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
-  };http://localhost:3000/
+  };
 
   return (
     <div style={{ padding: '0px', backgroundColor: darkMode ? '#333' : '#fff', color: darkMode ? '#fff' : '#000' }}>
@@ -98,6 +99,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
           <Card>
             <CardContent>
@@ -113,6 +115,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
           <Card>
             <CardContent>
@@ -120,7 +123,7 @@ const Dashboard = () => {
                 Product Catalog
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Browse available products from farmers.
+                Browse available products from farmers, with full blockchain-backed history.
               </Typography>
               <Button variant="contained" component={Link} to="/buyer/catalog">
                 View Product Catalog
@@ -128,6 +131,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
           <Card>
             <CardContent>
@@ -135,7 +139,7 @@ const Dashboard = () => {
                 Analytics
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                View sales and product performance metrics.
+                View sales, demand forecasting, and product performance metrics.
               </Typography>
               <Button variant="contained" component={Link} to="/analytics">
                 View Analytics
@@ -144,6 +148,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
           <Card>
             <CardContent>
@@ -151,10 +156,27 @@ const Dashboard = () => {
                 Tracking System
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Track your orders and deliveries.
+                Track your orders and deliveries with real-time updates from blockchain.
               </Typography>
               <Button variant="contained" component={Link} to="/tracking">
                 Access Tracking System
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Extra Card for Integrated Customer Profile (ICP) */}
+        <Grid item xs={12} sm={6} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="div">
+                Customer Insights (ICP)
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Access detailed customer analytics and tailored recommendations based on profile data.
+              </Typography>
+              <Button variant="contained" component={Link} to="/icp">
+                View ICP
               </Button>
             </CardContent>
           </Card>

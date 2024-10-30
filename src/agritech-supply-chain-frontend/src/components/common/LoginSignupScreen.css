@@ -5,7 +5,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #343536;
+    background-color: #1f1f20;
     font-family: 'Arial', sans-serif;
 }
 
@@ -17,7 +17,7 @@ body {
     border: 1px solid #383535;
     border-radius: 15px; /* Slightly more rounded corners */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
-    background-color: #ee7979;
+    background-color: #69ca79;
     text-align: center;
 }
 
