@@ -1,0 +1,17 @@
+.customer-insights-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #979494; /* Light background for the entire page */
+    width: 242vh;
+    
+  }
+  
+  .insight-card, .feedback-card {
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .insight-card:hover, .feedback-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  

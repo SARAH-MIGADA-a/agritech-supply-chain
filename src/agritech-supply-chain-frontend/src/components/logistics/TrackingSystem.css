@@ -1,50 +1,78 @@
 /* OrderTracking.css */
 
 .order-tracking-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #f5f5f5; /* Light background color for the entire page */
-    width:243vh;
-  }
-  
-  .order-tracking-header {
-    background-color: #3f51b5; /* Material-UI primary color */
-    color: white; /* Text color for the header */
-  }
-  
-  .order-tracking-title {
-    flex-grow: 1;
-    font-size: 24px; /* Title font size */
-  }
-  
-  .order-tracking-content {
-    flex-grow: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center align the content */
-  }
-  
-  .order-tracking-input {
-    margin-bottom: 20px;
-    width: 300px; /* Fixed width for input field */
-  }
-  
-  .track-order-button {
-    background-color: #3f51b5; /* Button background color */
-    color: white; /* Button text color */
-    transition: background-color 0.3s ease; /* Smooth transition effect for hover */
-  }
-  
-  .track-order-button:hover {
-    background-color: #303f9f; /* Darker shade on hover */
-  }
-  
-  .order-status {
-    margin-top: 20px; /* Spacing above order status text */
-    font-size: 20px; /* Font size for status message */
-    color: #333; /* Text color for status */
-    text-align: center; /* Center align status message */
-  }
-  
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #57e496; /* Light background color for the entire page */
+  width: 243vh;
+}
+
+.order-tracking-header {
+  background-color: #21b314; /* Material-UI primary color */
+  color: white; /* Text color for the header */
+}
+
+.order-tracking-title {
+  flex-grow: 1;
+  font-size: 24px; /* Title font size */
+}
+
+.order-tracking-content {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align the content */
+}
+
+.order-tracking-input {
+  margin-bottom: 20px;
+  width: 300px; /* Fixed width for input field */
+}
+
+.track-order-button {
+  background-color: #4bb935; /* Button background color */
+  color: white; /* Button text color */
+  transition: background-color 0.3s ease; /* Smooth transition effect for hover */
+}
+
+.track-order-button:hover {
+  background-color: #309f62; /* Darker shade on hover */
+}
+
+.order-status {
+  margin-top: 20px; /* Spacing above order status text */
+  font-size: 20px; /* Font size for status message */
+  color: #333; /* Text color for status */
+  text-align: center; /* Center align status message */
+}
+
+.order-details-card {
+  background-color: #fff; /* Card background */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for card */
+  width: 100%; /* Full width for card */
+  max-width: 400px; /* Max width for card */
+  margin-top: 20px; /* Spacing above card */
+}
+
+.order-details-card .MuiTypography-root {
+  margin-bottom: 8px; /* Space between typography elements */
+}
+
+/* Loading spinner styles */
+.loading-spinner {
+  margin-top: 20px; /* Space above the spinner */
+  color: #3f51b5; /* Spinner color */
+}
+
+.order-section {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+.order-summary {
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
+}

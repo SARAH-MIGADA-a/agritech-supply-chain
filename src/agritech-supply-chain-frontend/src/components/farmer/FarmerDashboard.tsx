@@ -1,4 +1,3 @@
-// FarmerDashboard.js
 import React, { useState } from 'react';
 import { Grid, Card, CardContent, Typography, Button, AppBar, Toolbar, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -20,7 +19,7 @@ const FarmerDashboard = () => {
 
   return (
     <div className={`dashboard-container ${darkMode ? 'dark-mode' : ''}`} style={{ backgroundColor: darkMode ? '#333' : '#fff', color: darkMode ? '#fff' : '#000' }}>
-      <AppBar position="static" className="dashboard-header">
+          <AppBar position="static" className="dashboard-header" style={{ backgroundColor: '#388E3C'}}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
@@ -47,11 +46,25 @@ const FarmerDashboard = () => {
 
         {/* Product Management */}
         <div className="button-group">
-          <Button variant="contained" component={Link} to="/add-product" startIcon={<AddCircleOutlineIcon />}>
-            Add New Product
-          </Button>
-          <Button variant="contained" component={Link} to="/update-farm-info" startIcon={<UpdateIcon />} style={{ marginLeft: '10px' }}>
+          <Button variant="contained" sx={{ backgroundColor: '#52f531', color: 'white', '&:hover': { backgroundColor: '#45c628' } }}>
+  Add New Product
+</Button>
+
+          <Button variant="contained" component={Link} to="/update-farm-info" startIcon={<UpdateIcon />} style={{ marginLeft: '10px' }} >
             Update Farm Information
+          </Button>
+        </div>
+
+        {/* New Button Group for Management Sections */}
+        <div className="button-group">
+          <Button variant="contained" component={Link} to="/inventory-management" startIcon={<TrackChangesIcon />} style={{ marginRight: '10px' }}>
+            Inventory Management
+          </Button>
+          <Button variant="contained" component={Link} to="/logistics-management" startIcon={<TrackChangesIcon />} style={{ marginRight: '10px' }}>
+            Logistics Management
+          </Button>
+          <Button variant="contained" component={Link} to="/market-trends" startIcon={<TrackChangesIcon />}>
+            Market Trends
           </Button>
         </div>
 
@@ -66,7 +79,7 @@ const FarmerDashboard = () => {
                 <Typography variant="body2" color="text.secondary">
                   Monitor and manage your current orders.
                 </Typography>
-                <Button variant="contained" component={Link} to="/order-tracking">
+                <Button variant="contained" component={Link} to="/tracking"> {/* Updated to link to TrackingSystem */}
                   Go to Order Tracking
                   <TrackChangesIcon style={{ marginLeft: '5px' }} />
                 </Button>

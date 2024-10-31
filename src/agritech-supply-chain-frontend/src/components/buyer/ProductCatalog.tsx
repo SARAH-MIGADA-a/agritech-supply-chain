@@ -16,7 +16,7 @@ const ProductCatalog = () => {
 
   return (
     <div className="catalog-container">
-      <AppBar position="static" className="catalog-header">
+      <AppBar position="static" className="catalog-header" style={{ backgroundColor: '#388E3C'}}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />

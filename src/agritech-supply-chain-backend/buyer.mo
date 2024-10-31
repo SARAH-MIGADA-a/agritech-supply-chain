@@ -1,129 +1,113 @@
-// src/backend/buyer.mo
-
 import Array "mo:base/Array";
-import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
-import Nat "mo:base/Nat";
+import Hash "mo:base/Hash";
+import Int "mo:base/Int";
+import Iter "mo:base/Iter";
 import Option "mo:base/Option";
-import Principal "mo:base/Principal";
+import Text "mo:base/Text";
 import Time "mo:base/Time";
-import Types "types";
+import Types "./types";
 
-actor class BuyerManager() {
-    private var buyers = HashMap.HashMap<Types.BuyerId, Types.Buyer>(0, Principal.equal, Principal.hash);
+module {
+    type Buyer = Types.Buyer;
+    type BuyerId = Types.BuyerId;
+    type TransactionId = Types.TransactionId;
 
-    // Register new buyer
-    public shared(msg) func registerBuyer(
-        name: Text,
-        location: Text,
-        contactInfo: Types.ContactInfo,
-        preferences: Types.BuyerPreferences
-    ): async Bool {
-        let buyer: Types.Buyer = {
-            id = msg.caller;
-            name = name;
-            location = location;
-            contactInfo = contactInfo;
+    public type BuyerStorage = {
+        var buyers: HashMap.HashMap<BuyerId, Buyer>;
+    };
+
+    public func init() : BuyerStorage {
+        {
+            var buyers = HashMap.HashMap<BuyerId, Buyer>(0, Text.equal, Text.hash);
+        }
+    };
+
+    public func createBuyer(storage: BuyerStorage, id : BuyerId, name : Text, location : Text) : ?Buyer {
+        if (Option.isSome(storage.buyers.get(id))) {
+            return null;
+        };
+
+        let newBuyer : Buyer = {
+            id;
+            name;
+            location;
             purchaseHistory = [];
-            rating = 0;
-            preferences = preferences;
-            paymentHistory = [];
         };
 
-        buyers.put(msg.caller, buyer);
-        true
+        storage.buyers.put(id, newBuyer);
+        ?newBuyer
     };
 
-    // Get buyer profile
-    public query func getBuyer(id: Types.BuyerId): async ?Types.Buyer {
-        buyers.get(id)
+    public func getBuyer(storage: BuyerStorage, id : BuyerId) : ?Buyer {
+        storage.buyers.get(id)
     };
 
-    // Update buyer profile
-    public shared(msg) func updateBuyerProfile(
-        name: ?Text,
-        location: ?Text,
-        contactInfo: ?Types.ContactInfo,
-        preferences: ?Types.BuyerPreferences
-    ): async Bool {
-        switch (buyers.get(msg.caller)) {
-            case null { false };
-            case (?buyer) {
-                let updatedBuyer: Types.Buyer = {
-                    id = buyer.id;
-                    name = Option.get(name, buyer.name);
-                    location = Option.get(location, buyer.location);
-                    contactInfo = Option.get(contactInfo, buyer.contactInfo);
-                    purchaseHistory = buyer.purchaseHistory;
-                    rating = buyer.rating;
-                    preferences = Option.get(preferences, buyer.preferences);
-                    paymentHistory = buyer.paymentHistory;
-                };
-
-                buyers.put(msg.caller, updatedBuyer);
-                true
+    public func updateBuyer(storage: BuyerStorage, id : BuyerId, name : ?Text, location : ?Text) : ?Buyer {
+        switch (storage.buyers.get(id)) {
+            case (null) {
+                null;
             };
-        }
-    };
-
-    // Add transaction to purchase history
-    public func addToPurchaseHistory(
-        buyerId: Types.BuyerId,
-        transactionId: Types.TransactionId
-    ): async Bool {
-        switch (buyers.get(buyerId)) {
-            case null { false };
-            case (?buyer) {
-                let updatedHistory = Array.append(buyer.purchaseHistory, [transactionId]);
-                let updatedBuyer: Types.Buyer = {
-                    buyer with purchaseHistory = updatedHistory;
+            case (?existingBuyer) {
+                let updatedBuyer : Buyer = {
+                    id = existingBuyer.id;
+                    name = Option.get(name, existingBuyer.name);
+                    location = Option.get(location, existingBuyer.location);
+                    purchaseHistory = existingBuyer.purchaseHistory;
                 };
-                buyers.put(buyerId, updatedBuyer);
-                true
-            };
-        }
-    };
-
-    // Add payment record
-    public func addPaymentRecord(
-        buyerId: Types.BuyerId,
-        paymentRecord: Types.PaymentRecord
-    ): async Bool {
-        switch (buyers.get(buyerId)) {
-            case null { false };
-            case (?buyer) {
-                let updatedPaymentHistory = Array.append(buyer.paymentHistory, [paymentRecord]);
-                let updatedBuyer: Types.Buyer = {
-                    buyer with paymentHistory = updatedPaymentHistory;
-                };
-                buyers.put(buyerId, updatedBuyer);
-                true
-            };
-        }
-    };
-
-    // Update buyer rating
-    public func updateBuyerRating(buyerId: Types.BuyerId, newRating: Nat): async Bool {
-        switch (buyers.get(buyerId)) {
-            case null { false };
-            case (?buyer) {
-                let updatedBuyer: Types.Buyer = {
-                    buyer with rating = newRating;
-                };
-                buyers.put(buyerId, updatedBuyer);
-                true
-            };
-        }
-    };
-
-    // Get buyers by location
-    public query func getBuyersByLocation(location: Text): async [Types.Buyer] {
-        var locationBuyers: [Types.Buyer] = [];
-        for ((id, buyer) in buyers.entries()) {
-            if (buyer.location == location) {
-                locationBuyers := Array.append(locationBuyers, [buyer]);
+                storage.buyers.put(id, updatedBuyer);
+                ?updatedBuyer;
             };
         };
-        locationBuyers
+    };
+
+    public func deleteBuyer(storage: BuyerStorage, id : BuyerId) : Bool {
+        switch (storage.buyers.get(id)) {
+            case (null) {
+                false;
+            };
+            case (?_) {
+                storage.buyers.delete(id);
+                true;
+            };
+        };
+    };
+
+    public func addTransactionToBuyer(storage: BuyerStorage, buyerId : BuyerId, transactionId : TransactionId) : Bool {
+        switch (storage.buyers.get(buyerId)) {
+            case (null) {
+                false;
+            };
+            case (?existingBuyer) {
+                let updatedHistory = Array.append(existingBuyer.purchaseHistory, [transactionId]);
+                let updatedBuyer : Buyer = {
+                    id = existingBuyer.id;
+                    name = existingBuyer.name;
+                    location = existingBuyer.location;
+                    purchaseHistory = updatedHistory;
+                };
+                storage.buyers.put(buyerId, updatedBuyer);
+                true;
+            };
+        };
+    };
+
+    public func getAllBuyers(storage: BuyerStorage) : [Buyer] {
+        Iter.toArray(storage.buyers.vals())
+    };
+
+    public func getBuyerTransactions(storage: BuyerStorage, buyerId : BuyerId) : ?[TransactionId] {
+        switch (storage.buyers.get(buyerId)) {
+            case (null) {
+                null;
+            };
+            case (?buyer) {
+                ?buyer.purchaseHistory;
+            };
+        };
+    };
+
+    public func clearAllBuyers(storage: BuyerStorage) {
+        storage.buyers := HashMap.HashMap<BuyerId, Buyer>(0, Text.equal, Text.hash);
     };
 };

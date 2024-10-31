@@ -1,10 +1,10 @@
 /* src/components/buyer/BuyerDashboard.css */
 
 .buyer-dashboard {
-    height: 100vh;
+    height: 200vh;
     display: flex;
     flex-direction: column;
-    background-color: #f5f5f5; /* Light background */
+    background-color: #89f392; /* Light background */
     color: #333; /* Default text color */
     width: 243vh;
   }

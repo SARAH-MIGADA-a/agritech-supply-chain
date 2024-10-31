@@ -16,7 +16,7 @@ const Analytics = () => {
 
   return (
     <div className="analytics-container">
-      <AppBar position="static" className="analytics-header">
+      <AppBar position="static" className="analytics-header" style={{ backgroundColor: '#388E3C'}}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />

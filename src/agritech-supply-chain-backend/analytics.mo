@@ -1,161 +1,143 @@
-// src/backend/analytics.mo
-
 import Array "mo:base/Array";
-import Hash "mo:base/Hash";
-import HashMap "mo:base/HashMap";
-import Nat "mo:base/Nat";
 import Float "mo:base/Float";
+import HashMap "mo:base/HashMap";
+import Int "mo:base/Int";
+import Iter "mo:base/Iter";
+import List "mo:base/List";
+import Nat "mo:base/Nat";
+import Text "mo:base/Text";
 import Time "mo:base/Time";
-import Types "types";
+import Types "./types";
 
-actor class AnalyticsManager() {
-    type TransactionAnalytics = {
-        totalTransactions: Nat;
-        totalValue: Nat;
-        averageValue: Float;
-        successRate: Float;
+module {
+    type Product = Types.Product;
+    type Transaction = Types.Transaction;
+    type Logistics = Types.Logistics;
+    type QualityMetrics = Types.QualityMetrics;
+
+    public type TransactionAnalytics = {
+        totalTransactions : Nat;
+        totalVolume : Nat;
+        averageTransactionValue : Float;
+        transactionsByStatus : HashMap.HashMap<Text, Nat>;
     };
 
-    type ProductAnalytics = {
-        totalProducts: Nat;
-        categoryCounts: HashMap.HashMap<Text, Nat>;
-        averagePrice: Float;
-        topCategories: [Text];
+    public type ProductAnalytics = {
+        totalProducts : Nat;
+        averagePrice : Float;
+        categoryCounts : HashMap.HashMap<Text, Nat>;
+        topCategories : [Text];
     };
 
-    type FarmerAnalytics = {
-        totalFarmers: Nat;
-        averageRating: Float;
-        topPerformers: [Types.FarmerId];
-        regionDistribution: HashMap.HashMap<Text, Nat>;
-    };
+    public func analyzeTransactions(transactions : [Transaction]) : TransactionAnalytics {
+        var totalTransactions = transactions.size();
+        var totalVolume = 0;
+        var totalValue = 0;
+        
+        let statusMap = HashMap.HashMap<Text, Nat>(10, Text.equal, Text.hash);
 
-    // Calculate transaction analytics
-    public func calculateTransactionAnalytics(
-        transactions: [Types.Transaction]
-    ): async TransactionAnalytics {
-        var totalValue: Nat = 0;
-        var successfulTransactions: Nat = 0;
+        for (tx in transactions.vals()) {
+            totalVolume += tx.quantity;
+            totalValue += tx.payment.amount;
 
-        for (transaction in transactions.vals()) {
-            totalValue += transaction.price * transaction.quantity;
-            switch (transaction.status) {
-                case (#Delivered) { successfulTransactions += 1; };
-                case (_) {};
+            let currentCount = switch (statusMap.get(tx.status)) {
+                case null 0;
+                case (?count) count;
             };
+            statusMap.put(tx.status, currentCount + 1);
         };
 
-        let totalTransactions = transactions.size();
-        let averageValue = Float.fromInt(totalValue) / Float.fromInt(totalTransactions);
-        let successRate = Float.fromInt(successfulTransactions) / Float.fromInt(totalTransactions);
+        let avgValue = if (totalTransactions > 0) {
+            Float.fromInt(totalValue) / Float.fromInt(totalTransactions);
+        } else {
+            0.0;
+        };
 
         {
-            totalTransactions = totalTransactions;
-            totalValue = totalValue;
-            averageValue = averageValue;
-            successRate = successRate;
-        }
+            totalTransactions;
+            totalVolume;
+            averageTransactionValue = avgValue;
+            transactionsByStatus = statusMap;
+        };
     };
 
-    // Calculate product analytics
-    public func calculateProductAnalytics(
-        products: [Types.Product]
-    ): async ProductAnalytics {
-        var categoryCounts = HashMap.HashMap<Text, Nat>(0, Text.equal, Text.hash);
-        var totalPrice: Nat = 0;
+    public func analyzeProducts(products : [Product]) : ProductAnalytics {
+        var totalProducts = products.size();
+        var totalPrice = 0;
+        
+        let categoryMap = HashMap.HashMap<Text, Nat>(10, Text.equal, Text.hash);
 
         for (product in products.vals()) {
             totalPrice += product.price;
-            
-            switch (categoryCounts.get(product.category)) {
-                case null { categoryCounts.put(product.category, 1); };
-                case (?count) { categoryCounts.put(product.category, count + 1); };
+
+            let currentCount = switch (categoryMap.get(product.category)) {
+                case null 0;
+                case (?count) count;
             };
+            categoryMap.put(product.category, currentCount + 1);
         };
 
-        // Calculate top categories
-        var topCategories: [Text] = [];
-        // Implementation of top categories calculation...
-
-        {
-            totalProducts = products.size();
-            categoryCounts = categoryCounts;
-            averagePrice = Float.fromInt(totalPrice) / Float.fromInt(products.size());
-            topCategories = topCategories;
-        }
-    };
-
-    // Generate market insights
-    public func generateMarketInsights(
-        transactions: [Types.Transaction],
-        products: [Types.Product]
-    ): async Text {
-        var insight = "Market Insights:\n";
-        
-        // Calculate total market value
-        var totalMarketValue: Nat = 0;
-        for (transaction in transactions.vals()) {
-            totalMarketValue += transaction.price * transaction.quantity;
+        let avgPrice = if (totalProducts > 0) {
+            Float.fromInt(totalPrice) / Float.fromInt(totalProducts);
+        } else {
+            0.0;
         };
 
-        insight #= "Total Market Value: " # Nat.toText(totalMarketValue) # "\n";
-
-        // Add more insights...
-
-        insight
-    };
-
-    // Track price trends
-    public func trackPriceTrends(
-        productId: Types.ProductId,
-        transactions: [Types.Transaction]
-    ): async [Float] {
-        var priceTrend: [Float] = [];
-        // Implementation of price trend calculation...
-        priceTrend
-    };
-
-    // Generate quality metrics report
-    public func generateQualityReport(
-        products: [Types.Product]
-    ): async Text {
-        var report = "Quality Metrics Report:\n";
-        
-        var totalProducts = products.size();
-        var highQualityCount = 0;
-
-        for (product in products.vals()) {
-            if (product.qualityMetrics.grade == "A") {
-                highQualityCount += 1;
-            };
-        };
-
-        report #= "Total Products: " # Nat.toText(totalProducts) # "\n";
-        report #= "High Quality Products: " # Nat.toText(highQualityCount) # "\n";
-
-        report
-    };
-
-    // Calculate logistics performance
-    public func calculateLogisticsPerformance(
-        transactions: [Types.Transaction]
-    ): async Float {
-        var onTimeDeliveries = 0;
-        var totalDeliveries = 0;
-
-        for (transaction in transactions.vals()) {
-            switch (transaction.logisticsInfo) {
-                case null {};
-                case (?logisticsInfo) {
-                    totalDeliveries += 1;
-                    if (Time.now() <= logisticsInfo.expectedDelivery) {
-                        onTimeDeliveries += 1;
+        // Convert category map to sorted array of categories
+        let categories = Array.tabulate<Text>(
+            categoryMap.size(),
+            func(i) : Text {
+                var maxCount = 0;
+                var maxCategory = "";
+                for ((category, count) in categoryMap.entries()) {
+                    if (count > maxCount) {
+                        maxCount := count;
+                        maxCategory := category;
                     };
                 };
+                maxCategory;
+            }
+        );
+
+        {
+            totalProducts;
+            averagePrice = avgPrice;
+            categoryCounts = categoryMap;
+            topCategories = categories;
+        };
+    };
+
+    public func calculateQualityScore(metrics : QualityMetrics) : Float {
+        let totalScore = metrics.freshness + metrics.appearance + metrics.taste;
+        Float.fromInt(totalScore) / 3.0;
+    };
+
+    public func analyzeLogistics(logistics : [Logistics]) : [(Text, Nat)] {
+        let statusMap = HashMap.HashMap<Text, Nat>(10, Text.equal, Text.hash);
+
+        for (log in logistics.vals()) {
+            let currentCount = switch (statusMap.get(log.status)) {
+                case null 0;
+                case (?count) count;
             };
+            statusMap.put(log.status, currentCount + 1);
         };
 
-        if (totalDeliveries == 0) return 0;
-        Float.fromInt(onTimeDeliveries) / Float.fromInt(totalDeliveries)
+        let statuses = Array.tabulate<(Text, Nat)>(
+            statusMap.size(),
+            func(i) : (Text, Nat) {
+                var maxCount = 0;
+                var maxStatus = "";
+                for ((status, count) in statusMap.entries()) {
+                    if (count > maxCount) {
+                        maxCount := count;
+                        maxStatus := status;
+                    };
+                };
+                (maxStatus, maxCount);
+            }
+        );
+
+        statuses;
     };
 };
