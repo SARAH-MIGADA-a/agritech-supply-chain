@@ -2,17 +2,24 @@
 
 /* General styles for the container */
 .container {
-    padding: 100px;
-    width: 243vh;
-    height: 100vh;
+    padding: 50px; /* Reduced padding for better use of space */
+    width: 150%; /* Full width */
+    height: 100vh; /* Full height */
+    display: flex; /* Use flex to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    background-color: #65c065; /* Light background color for contrast */
   }
   
   /* Card styles */
-  .MuiCard-root {
-    margin: 20px auto; /* Center the card */
-    max-width: 500px; /* Limit the card width */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  .card {
+    padding: 20px; /* Padding inside the card */
+    background-color: #458d5b; /* Card background */
     border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    width: 100%; /* Full width of the card */
+    max-width: 600px; /* Max width to avoid stretching */
+    overflow: hidden; /* Prevent overflow from inner elements */
   }
   
   /* Typography styles */
@@ -35,7 +42,7 @@
   /* Button styles */
   .MuiButton-contained {
     background-color: #388E3C; /* Green for save changes button */
-    color: rgb(138, 126, 126); /* White text color */
+    color: white; /* White text color */
   }
   
   .MuiButton-contained:hover {

@@ -4,7 +4,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f5f5f5; /* Light background color */
+    background-color: #c3eec2; /* Light background color */
     width:243vh;
   }
   
@@ -44,7 +44,7 @@
   
   .charts-placeholder {
     text-align: center; /* Center align the charts placeholder */
-    margin-top: 20px; /* Spacing above the charts */
+    margin-top: 40px; /* Spacing above the charts */
     color: #666; /* Color for the description text */
   }
   

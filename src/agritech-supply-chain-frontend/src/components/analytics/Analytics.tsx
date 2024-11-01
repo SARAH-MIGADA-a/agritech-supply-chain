@@ -1,9 +1,40 @@
 import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Grid, Card, CardContent } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  LinearProgress,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import BarChart from '@mui/icons-material/BarChart';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LinearScale,
+  CategoryScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'; // Import necessary components from Chart.js
 import './Analytics.css'; // Import the CSS file
+
+// Register the components
+ChartJS.register(
+  LinearScale,
+  CategoryScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Analytics = () => {
   // Sample analytics data
@@ -11,12 +42,28 @@ const Analytics = () => {
     { title: 'Total Sales', value: '$5000' },
     { title: 'Orders Completed', value: '150' },
     { title: 'New Customers', value: '30' },
-    // Add more analytics metrics as needed
+    { title: 'Total Profit', value: '$1200' },
+    { title: 'Customer Satisfaction', value: '85%' },
+    { title: 'Website Traffic', value: '5000 Visits' },
   ];
+
+  // Sample chart data
+  const data = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    datasets: [
+      {
+        label: 'Sales Over Time',
+        data: [400, 450, 300, 500, 600, 700],
+        fill: false,
+        borderColor: '#388E3C',
+        tension: 0.1,
+      },
+    ],
+  };
 
   return (
     <div className="analytics-container">
-      <AppBar position="static" className="analytics-header" style={{ backgroundColor: '#388E3C'}}>
+      <AppBar position="static" className="analytics-header" style={{ backgroundColor: '#388E3C' }}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
@@ -53,9 +100,21 @@ const Analytics = () => {
         </Grid>
 
         <Typography variant="h5" style={{ marginTop: '20px' }}>
-          Charts and Graphs (Placeholder for actual charts)
+          Sales Over Time
         </Typography>
-        {/* Placeholder for Chart Component */}
+        <Line data={data} style={{ marginTop: '20px' }} />
+
+        <Typography variant="h5" style={{ marginTop: '40px' }}>
+          Customer Satisfaction
+        </Typography>
+        <LinearProgress variant="determinate" value={85} style={{ marginTop: '10px' }} />
+        <Typography variant="body1" style={{ textAlign: 'center' }}>
+          85% Customer Satisfaction
+        </Typography>
+
+        <Typography variant="h5" style={{ marginTop: '40px' }}>
+          Charts and Graphs (Placeholder for additional analytics)
+        </Typography>
         <BarChart style={{ fontSize: '100px', marginTop: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
         <Typography variant="body2" className="charts-placeholder">
           (You can use chart libraries like Chart.js or Recharts here)
