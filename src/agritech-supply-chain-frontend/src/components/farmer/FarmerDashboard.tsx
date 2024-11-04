@@ -14,7 +14,7 @@ import './FarmerDashboard.css';
 
 const FarmerDashboard: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
-  const [activeSection, setActiveSection] = useState(''); // Step 1: State variable
+  const [activeSection, ] = useState(''); // Step 1: State variable
   const style = {
     position: 'absolute',
     top: '50%',

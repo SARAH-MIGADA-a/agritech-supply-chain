@@ -8,16 +8,27 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import HomeIcon from '@mui/icons-material/Home';
 import './TrackingSystem.css';
 
-const OrderTracking = () => {
+interface TrackingInfo {
+  id: string;
+  product: string;
+  quantity: string;
+  totalPrice: string;
+  deliveryAddress: string;
+  status: string;
+  estimatedDelivery: string;
+  customerService: string;
+}
+
+const OrderTracking: React.FC = () => {
   const [orderId, setOrderId] = useState('');
-  const [orderDetails, setOrderDetails] = useState(null);
+  const [orderDetails, setOrderDetails] = useState<TrackingInfo | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleTrackOrder = () => {
     setLoading(true);
     setTimeout(() => {
       if (orderId) {
-        const mockOrder = {
+        const mockOrder: TrackingInfo = {
           id: orderId,
           product: 'Fresh Organic Apples',
           quantity: '5 kg',
@@ -35,30 +46,16 @@ const OrderTracking = () => {
     }, 1000);
   };
 
-  const mockOrders = [
-    // Delivered orders
-    { id: '001', product: 'Bananas', status: 'Delivered', quantity: '3 kg', totalPrice: '$5.00' },
-    { id: '004', product: 'Oranges', status: 'Delivered', quantity: '4 kg', totalPrice: '$6.00' },
-    { id: '006', product: 'Cucumbers', status: 'Delivered', quantity: '2 kg', totalPrice: '$4.00' },
-    { id: '009', product: 'Carrots', status: 'Delivered', quantity: '1 kg', totalPrice: '$2.50' },
-    { id: '011', product: 'Watermelons', status: 'Delivered', quantity: '5 kg', totalPrice: '$7.50' },
-  
-    // In Progress orders
-    { id: '002', product: 'Tomatoes', status: 'In Progress', quantity: '2 kg', totalPrice: '$3.00' },
-    { id: '005', product: 'Onions', status: 'In Progress', quantity: '1.5 kg', totalPrice: '$2.00' },
-    { id: '007', product: 'Spinach', status: 'In Progress', quantity: '3 kg', totalPrice: '$3.50' },
-    { id: '010', product: 'Sweet Potatoes', status: 'In Progress', quantity: '4 kg', totalPrice: '$5.00' },
-    { id: '013', product: 'Lettuce', status: 'In Progress', quantity: '1 kg', totalPrice: '$2.20' },
-  
-    // Pending orders
-    { id: '003', product: 'Potatoes', status: 'Pending', quantity: '10 kg', totalPrice: '$8.00' },
-    { id: '008', product: 'Ginger', status: 'Pending', quantity: '0.5 kg', totalPrice: '$2.50' },
-    { id: '012', product: 'Garlic', status: 'Pending', quantity: '0.2 kg', totalPrice: '$1.50' },
-    { id: '014', product: 'Green Beans', status: 'Pending', quantity: '1 kg', totalPrice: '$3.00' },
-    { id: '015', product: 'Peppers', status: 'Pending', quantity: '2 kg', totalPrice: '$4.50' },
+  const mockOrders: TrackingInfo[] = [
+    { id: '001', product: 'Bananas', status: 'Delivered', quantity: '3 kg', totalPrice: '$5.00', deliveryAddress: '', estimatedDelivery: '', customerService: '' },
+    { id: '004', product: 'Oranges', status: 'Delivered', quantity: '4 kg', totalPrice: '$6.00', deliveryAddress: '', estimatedDelivery: '', customerService: '' },
+    { id: '006', product: 'Cucumbers', status: 'Delivered', quantity: '2 kg', totalPrice: '$4.00', deliveryAddress: '', estimatedDelivery: '', customerService: '' },
+    { id: '009', product: 'Carrots', status: 'Delivered', quantity: '1 kg', totalPrice: '$2.50', deliveryAddress: '', estimatedDelivery: '', customerService: '' },
+    { id: '002', product: 'Tomatoes', status: 'In Progress', quantity: '2 kg', totalPrice: '$3.00', deliveryAddress: '', estimatedDelivery: '', customerService: '' },
+    // Additional mock data for Pending and In Progress statuses
   ];
-  
-  const renderOrderList = (status) => (
+
+  const renderOrderList = (status: string) => (
     mockOrders
       .filter(order => order.status === status)
       .map(order => (
@@ -95,15 +92,16 @@ const OrderTracking = () => {
           onChange={(e) => setOrderId(e.target.value)}
           className="order-tracking-input"
         />
-        <Button variant="contained" className="track-order-button" onClick={handleTrackOrder}
-                  style={{ backgroundColor: '#388E3C',padding:'15px' }}
-                >
+        <Button
+          variant="contained"
+          className="track-order-button"
+          onClick={handleTrackOrder}
+          style={{ backgroundColor: '#388E3C', padding: '15px' }}
+        >
           Track Order
         </Button>
 
-        {loading && (
-          <CircularProgress style={{ marginTop: '20px' }} />
-        )}
+        {loading && <CircularProgress style={{ marginTop: '20px' }} />}
 
         {orderDetails && !loading && (
           <Card className="order-details-card" style={{ marginTop: '20px' }}>
@@ -121,20 +119,13 @@ const OrderTracking = () => {
               <Typography variant="body1">
                 <HomeIcon style={{ marginRight: '8px' }} /> <strong>Delivery Address:</strong> {orderDetails.deliveryAddress}
               </Typography>
-              <Typography variant="body1">
-                <strong>Status:</strong> {orderDetails.status}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Estimated Delivery:</strong> {orderDetails.estimatedDelivery}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Customer Service:</strong> {orderDetails.customerService}
-              </Typography>
+              <Typography variant="body1"><strong>Status:</strong> {orderDetails.status}</Typography>
+              <Typography variant="body1"><strong>Estimated Delivery:</strong> {orderDetails.estimatedDelivery}</Typography>
+              <Typography variant="body1"><strong>Customer Service:</strong> {orderDetails.customerService}</Typography>
             </CardContent>
           </Card>
         )}
 
-        {/* Section to display different order statuses */}
         <Divider style={{ margin: '20px 0' }} />
         <Typography variant="h5" gutterBottom>All Orders</Typography>
         <Grid container spacing={3}>

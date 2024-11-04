@@ -11,7 +11,6 @@ import {
   Button,
   Collapse,
   InputAdornment,
-  Snackbar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -24,31 +23,45 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import './BuyerDashboard.css';
 
-const BuyerDashboard = () => {
+interface Notification {
+  id: string;
+  message: string;
+  timestamp: string;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string; // Added image type
+}
+
+const BuyerDashboard: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [showOrderHistory, setShowOrderHistory] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null); // To store the selected product details
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
+  const products: Product[] = [
+    { id: '1', name: 'Organic Tomatoes', description: 'Fresh organic tomatoes from Green Farm.', price: 10, image: '/assets/images/tomatoes_image.jpg' },
+    { id: '2', name: 'Fresh Spinach', description: 'Locally sourced fresh spinach.', price: 15, image: '/assets/images/spinach_image.jpg' },
+    { id: '3', name: 'Free-range Eggs', description: 'Eggs from free-range chickens.', price: 8, image: '/assets/images/eggs_image.jpg' },
+    { id: '4', name: 'Artisan Bread', description: 'Handmade artisan bread baked daily.', price: 5, image: '/assets/images/bread_image.jpg' },
+    { id: '5', name: 'Raw Honey', description: 'Pure raw honey harvested from local hives.', price: 12, image: '/assets/images/honey_image.jpg' },
+    { id: '6', name: 'Seasonal Fruits', description: 'A selection of seasonal fruits.', price: 20, image: '/assets/images/fruits_image.jpg' },
+    { id: '7', name: 'Dairy Milk', description: 'Fresh milk from local dairies.', price: 3, image: '/assets/images/milk_image.jpg' },
+    { id: '8', name: 'Herbal Tea', description: 'A blend of soothing herbal teas.', price: 10, image: '/assets/images/tea_image.jpg' },
+    { id: '9', name: 'Chili Peppers', description: 'Spicy chili peppers for your dishes.', price: 7, image: '/assets/images/chillies_image.jpg' },
+    { id: '10', name: 'Carrots', description: 'Crunchy carrots full of flavor.', price: 6, image: '/assets/images/carrots_image.jpg' },
+    // Add more products as needed
+  ];
 
-  const toggleOrderHistory = () => {
-    setShowOrderHistory((prev) => !prev);
-  };
-
-  const handleNotificationClick = (notification) => {
-    setNotifications((prev) => [...prev, notification]);
-  };
-
-  const handleViewDetails = (product) => {
-    setSelectedProduct(product);
-  };
-
-  const handleHideDetails = () => {
-    setSelectedProduct(null);
-  };
+  const toggleDarkMode = () => setDarkMode(prevMode => !prevMode);
+  const toggleOrderHistory = () => setShowOrderHistory(prev => !prev);
+  const handleNotification = (notification: Notification) => setNotifications(prev => [...prev, notification]);
+  const handleProductView = (product: Product) => setSelectedProduct(product);
+  const handleHideDetails = () => setSelectedProduct(null);
 
   return (
     <div className={`buyer-dashboard ${darkMode ? 'dark-mode' : ''}`}>
@@ -66,7 +79,7 @@ const BuyerDashboard = () => {
           <IconButton onClick={toggleDarkMode} color="inherit">
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
-          <IconButton color="inherit" onClick={() => handleNotificationClick("New order updates available!")}>
+          <IconButton color="inherit" onClick={() => handleNotification({ id: `${notifications.length + 1}`, message: "New order updates available!", timestamp: new Date().toLocaleString() })}>
             <NotificationsIcon />
           </IconButton>
         </Toolbar>
@@ -77,7 +90,6 @@ const BuyerDashboard = () => {
           Welcome to the Agricultural Marketplace!
         </Typography>
 
-        {/* Search Products */}
         <TextField
           variant="outlined"
           placeholder="Search..."
@@ -86,15 +98,9 @@ const BuyerDashboard = () => {
             width: '50%',
             '& .MuiOutlinedInput-root': {
               borderRadius: '30px',
-              '& fieldset': {
-                borderColor: '#66BB6A',
-              },
-              '&:hover fieldset': {
-                borderColor: '#388E3C',
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: '#2E7D32',
-              },
+              '& fieldset': { borderColor: '#66BB6A' },
+              '&:hover fieldset': { borderColor: '#388E3C' },
+              '&.Mui-focused fieldset': { borderColor: '#2E7D32' },
             },
           }}
           InputProps={{
@@ -109,13 +115,10 @@ const BuyerDashboard = () => {
         />
 
         <Grid container spacing={3}>
-          {/* Product Catalog */}
           <Grid item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
-                <Typography variant="h5" component="div">
-                  Product Catalog
-                </Typography>
+                <Typography variant="h5">Product Catalog</Typography>
                 <Typography variant="body2" color="text.secondary">
                   Browse a wide range of agricultural products from local farmers.
                 </Typography>
@@ -126,13 +129,10 @@ const BuyerDashboard = () => {
             </Card>
           </Grid>
 
-          {/* Order History Button */}
           <Grid item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
-                <Typography variant="h5" component="div">
-                  Order History
-                </Typography>
+                <Typography variant="h5">Order History</Typography>
                 <Typography variant="body2" color="text.secondary">
                   Check your past purchases of fresh produce.
                 </Typography>
@@ -148,13 +148,10 @@ const BuyerDashboard = () => {
             </Card>
           </Grid>
 
-          {/* Tracking Orders */}
           <Grid item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
-                <Typography variant="h5" component="div">
-                  Order Tracking
-                </Typography>
+                <Typography variant="h5">Order Tracking</Typography>
                 <Typography variant="body2" color="text.secondary">
                   Track your ongoing orders of agricultural products.
                 </Typography>
@@ -167,88 +164,39 @@ const BuyerDashboard = () => {
           </Grid>
         </Grid>
 
-        {/* Featured Products Section */}
         <Typography variant="h5" style={{ marginTop: '30px' }}>
           Featured Products
         </Typography>
         <Grid container spacing={3}>
-          {[
-            { id: 1, name: 'Fresh Organic Tomatoes', price: '$2.50 / kg', imgSrc: '/assets/images/tomatoes.jpg' },
-            { id: 2, name: 'Premium Green Lettuce', price: '$1.75 / head', imgSrc: '/assets/images/lettuce.jpg' },
-            { id: 3, name: 'Sweet Yellow Corn', price: '$3.00 / kg', imgSrc: 'assets/images/corn.jpg' },
-            { id: 4, name: 'Ripe Avocados', price: '$4.00 / kg', imgSrc: '/assets/images/avocados.jpg' },
-            { id: 5, name: 'Fresh Strawberries', price: '$5.50 / kg', imgSrc: '/assets/images/strawberries.jpg' },
-            { id: 6, name: 'Organic Carrots', price: '$2.00 / kg', imgSrc: '/assets/images/carrots.jpg' },
-            { id: 7, name: 'Fresh Spinach', price: '$1.50 / bunch', imgSrc: '/assets/images/spinach.jpg' },
-            { id: 8, name: 'Juicy Watermelons', price: '$0.80 / kg', imgSrc: '/assets/images/watermelons.jpg' },
-            { id: 9, name: 'Crunchy Cucumber', price: '$0.90 / kg', imgSrc: '/assets/images/cucumber.jpg' },
-            { id: 10, name: 'Fresh Basil', price: '$2.25 / bunch', imgSrc: '/assets/images/basil.jpg' },
-          ].map(product => (
+          {products.map(product => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
               <Card>
                 <CardContent>
-                  <img src={product.imgSrc} alt={product.name} style={{ width: '100%', height: 'auto' }} />
-                  <Typography variant="h6" component="div">
-                    {product.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Price: {product.price}
-                  </Typography>
-                  <Button variant="contained" style={{ backgroundColor: '#388E3C', marginTop: '10px' }}>
-                    Add to Cart
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    style={{ marginTop: '10px' }}
-                    onClick={() => handleViewDetails(product)}
-                  >
+                  <img src={product.image} alt={product.name} style={{ width: '100%', height: 'auto' }} />
+                  <Typography variant="h6">{product.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">Price: ${product.price}</Typography>
+                  <Button variant="contained" onClick={() => handleProductView(product)} style={{ backgroundColor: '#388E3C' }}>
                     View Details
                   </Button>
-                  
-                  {/* Product Details Section */}
-                  <Collapse in={selectedProduct?.id === product.id}>
-                    <CardContent style={{ marginTop: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
-                      <Typography variant="body1">
-                        Description: Readily Available Produced by Farmer Sarah
-                      </Typography>
-                      <Button variant="outlined" style={{ marginTop: '10px' }} onClick={handleHideDetails}>
-                        Hide Details
-                      </Button>
-                    </CardContent>
-                  </Collapse>
                 </CardContent>
               </Card>
             </Grid>
           ))}
         </Grid>
 
-        {/* Order History Section */}
-        <Collapse in={showOrderHistory}>
-          <Typography variant="h5" style={{ marginTop: '30px' }}>
-            Your Order History
-          </Typography>
-          <Grid container spacing={3}>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" component="div">
-                      Order #{index + 1}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Product: Fresh Organic Tomatoes
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Price: $2.50 / kg
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Date: {new Date().toLocaleDateString()}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+        <Collapse in={!!selectedProduct}>
+          {selectedProduct && (
+            <Card style={{ marginTop: '20px' }}>
+              <CardContent>
+                <Typography variant="h5">{selectedProduct.name}</Typography>
+                <Typography variant="body2">{selectedProduct.description}</Typography>
+                <Typography variant="body2">Price: ${selectedProduct.price}</Typography>
+                <Button variant="contained" onClick={handleHideDetails} style={{ backgroundColor: '#f44336' }}>
+                  Close
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </Collapse>
       </div>
     </div>

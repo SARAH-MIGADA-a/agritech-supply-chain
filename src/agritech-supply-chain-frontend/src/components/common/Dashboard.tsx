@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Grid, Card, CardContent, Typography, Button, AppBar, Toolbar, IconButton, TextField, Paper } from '@mui/material';
+import  { useState } from 'react';
+import { Grid, Card, CardContent, Typography, Button, AppBar, Toolbar, IconButton, TextField,  } from '@mui/material';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -8,9 +8,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ToggleOff from '@mui/icons-material/ToggleOff';
 import ToggleOn from '@mui/icons-material/ToggleOn';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import StoreIcon from '@mui/icons-material/Store';
-import PeopleIcon from '@mui/icons-material/People';
 
 const Dashboard = () => {
   const [darkMode, setDarkMode] = useState(false);

@@ -1,35 +1,43 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
-// Create the context
-const AuthContext = createContext();
+interface User {
+    id: string;
+    name: string;
+    email: string;
+}
 
-// Create the AuthProvider component
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Example state for user
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Example state for authentication status
+interface AuthContextType {
+    user: User | null;
+    login: (userData: User) => void;
+    logout: () => void;
+}
 
-  const login = (userData) => {
-    setUser(userData);
-    setIsAuthenticated(true);
-  };
+const AuthContext = createContext<AuthContextType>({
+    user: null,
+    login: () => {},
+    logout: () => {},
+});
 
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-  };
+interface AuthProviderProps {
+    children: React.ReactNode;
+}
 
-  return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [user, setUser] = useState<User | null>(null);
+
+    const login = (userData: User) => {
+        setUser(userData);
+    };
+
+    const logout = () => {
+        setUser(null);
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
-// Create a custom hook to use the AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);
