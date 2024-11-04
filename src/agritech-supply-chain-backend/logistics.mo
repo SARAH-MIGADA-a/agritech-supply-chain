@@ -1,5 +1,5 @@
-// src/backend/logistics.mo
-
+import Text "mo:base/Text";
+import Int "mo:base/Int";
 import Array "mo:base/Array";
 import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
@@ -9,45 +9,51 @@ import Principal "mo:base/Principal";
 import Time "mo:base/Time";
 import Types "types";
 
+
 actor class LogisticsManager() {
     private stable var nextLogisticsId: Nat = 0;
-    private var logisticsRecords = HashMap.HashMap<Types.LogisticsId, Types.LogisticsInfo>(0, Nat.equal, Hash.hash);
+    private var logisticsRecords = HashMap.HashMap<Types.LogisticsId, Types.Logistics>(0, Text.equal, Text.hash);
 
     // Create new logistics record
     public func createLogisticsRecord(
-        carrier: Text,
-        origin: Text,
-        destination: Text,
-        expectedDelivery: Time.Time,
-        transportType: Text,
-        cost: Nat
+        provider: Principal,
+        startLocation: Text,
+        endLocation: Text,
+        estimatedDelivery: Int,
+        providerName: Text,
+        vehicleType: Text,
+        vehicleId: Text,
+        capacity: Nat,
+        transactionId: Types.TransactionId
     ): async Types.LogisticsId {
-        let logisticsInfo: Types.LogisticsInfo = {
-            id = nextLogisticsId;
-            carrier = carrier;
-            trackingNumber = generateTrackingNumber(nextLogisticsId);
-            origin = origin;
-            destination = destination;
-            expectedDelivery = expectedDelivery;
-            status = #Preparing;
-            trackingHistory = [];
-            temperature = [];
-            transportType = transportType;
-            cost = cost;
+        let logisticsId = nextLogisticsId;
+        nextLogisticsId += 1;
+        
+        let logistics: Types.Logistics = {
+            id = Int.toText(logisticsId);
+            provider = provider;
+            startLocation = startLocation;
+            endLocation = endLocation;
+            estimatedDelivery = estimatedDelivery;
+            actualDelivery = null;
+            status = #pending;
+            trackingDetails = [];
+            transactionId = transactionId;
+            logisticsInfo = {
+                providerName = providerName;
+                vehicleType = vehicleType;
+                vehicleId = vehicleId;
+                capacity = capacity;
+                availabilityStatus = "available";
+            };
         };
 
-        logisticsRecords.put(nextLogisticsId, logisticsInfo);
-        nextLogisticsId += 1;
-        nextLogisticsId - 1
-    };
-
-    // Generate tracking number
-    private func generateTrackingNumber(id: Nat): Text {
-        "AGT" # Nat.toText(id) # "LC" # Nat.toText(Time.now())
+        logisticsRecords.put(Int.toText(logisticsId), logistics);
+        Int.toText(logisticsId)
     };
 
     // Get logistics record
-    public query func getLogisticsRecord(id: Types.LogisticsId): async ?Types.LogisticsInfo {
+    public query func getLogisticsRecord(id: Types.LogisticsId): async ?Types.Logistics {
         logisticsRecords.get(id)
     };
 
@@ -59,7 +65,7 @@ actor class LogisticsManager() {
         switch (logisticsRecords.get(id)) {
             case null { false };
             case (?record) {
-                let updatedRecord: Types.LogisticsInfo = {
+                let updatedRecord: Types.Logistics = {
                     record with status = newStatus;
                 };
                 logisticsRecords.put(id, updatedRecord);
@@ -68,30 +74,17 @@ actor class LogisticsManager() {
         }
     };
 
-    // Add tracking event
-    public func addTrackingEvent(
+    // Add tracking detail
+    public func addTrackingDetail(
         id: Types.LogisticsId,
-        location: Text,
-        status: Text,
-        temperature: ?Float,
-        humidity: ?Float,
-        notes: Text
+        detail: Text
     ): async Bool {
         switch (logisticsRecords.get(id)) {
             case null { false };
             case (?record) {
-                let newEvent: Types.TrackingEvent = {
-                    timestamp = Time.now();
-                    location = location;
-                    status = status;
-                    temperature = temperature;
-                    humidity = humidity;
-                    notes = notes;
-                };
-
-                let updatedHistory = Array.append(record.trackingHistory, [newEvent]);
-                let updatedRecord: Types.LogisticsInfo = {
-                    record with trackingHistory = updatedHistory;
+                let updatedDetails = Array.append(record.trackingDetails, [detail]);
+                let updatedRecord: Types.Logistics = {
+                    record with trackingDetails = updatedDetails;
                 };
                 logisticsRecords.put(id, updatedRecord);
                 true
@@ -99,24 +92,17 @@ actor class LogisticsManager() {
         }
     };
 
-    // Add temperature log
-    public func addTemperatureLog(
-        id: Types.LogisticsId,
-        temperature: Float,
-        location: Text
+    // Complete delivery
+    public func completeDelivery(
+        id: Types.LogisticsId
     ): async Bool {
         switch (logisticsRecords.get(id)) {
             case null { false };
             case (?record) {
-                let tempLog: Types.TemperatureLog = {
-                    timestamp = Time.now();
-                    temperature = temperature;
-                    location = location;
-                };
-
-                let updatedTemps = Array.append(record.temperature, [tempLog]);
-                let updatedRecord: Types.LogisticsInfo = {
-                    record with temperature = updatedTemps;
+                let updatedRecord: Types.Logistics = {
+                    record with
+                    status = #delivered;
+                    actualDelivery = ?Time.now();
                 };
                 logisticsRecords.put(id, updatedRecord);
                 true
@@ -125,16 +111,26 @@ actor class LogisticsManager() {
     };
 
     // Get all active shipments
-    public query func getActiveShipments(): async [Types.LogisticsInfo] {
-        var activeShipments: [Types.LogisticsInfo] = [];
-        for ((id, record) in logisticsRecords.entries()) {
+    public query func getActiveShipments(): async [Types.Logistics] {
+        var activeShipments: [Types.Logistics] = [];
+        for ((_, record) in logisticsRecords.entries()) {
             switch (record.status) {
-                case (#InTransit) {
+                case (#inTransit) {
                     activeShipments := Array.append(activeShipments, [record]);
                 };
                 case (_) {};
             };
         };
         activeShipments
+    };
+
+    // Get logistics by transaction
+    public query func getLogisticsByTransaction(transactionId: Types.TransactionId): async ?Types.Logistics {
+        for ((_, logistics) in logisticsRecords.entries()) {
+            if (logistics.transactionId == transactionId) {
+                return ?logistics;
+            };
+        };
+        null
     };
 };

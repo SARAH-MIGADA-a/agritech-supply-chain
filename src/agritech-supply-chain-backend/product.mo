@@ -1,132 +1,97 @@
-// src/backend/product.mo
-
+import Text "mo:base/Text";
 import Array "mo:base/Array";
-import Hash "mo:base/Hash";
-import HashMap "mo:base/HashMap";
-import Nat "mo:base/Nat";
-import Option "mo:base/Option";
-import Principal "mo:base/Principal";
-import Time "mo:base/Time";
-import Types "types";
+import Buffer "mo:base/Buffer";
+import Iter "mo:base/Iter";
 
-actor class ProductManager() {
-    private stable var nextProductId: Nat = 0;
-    private var products = HashMap.HashMap<Types.ProductId, Types.Product>(0, Nat.equal, Hash.hash);
+actor Product {
+    // Product types
+    type ProductStatus = {
+        #available;
+        #inTransit;
+        #delivered;
+        #outOfStock;
+    };
+
+    type Product = {
+        id: Text;
+        name: Text;
+        description: Text;
+        price: Text;
+        quantity: Text;
+        status: ProductStatus;
+        farmerId: Text;
+        origin: Text;
+    };
+
+    // Store products
+    private var products = Buffer.Buffer<Product>(0);
 
     // Create a new product
     public shared(msg) func createProduct(
+        id: Text,
         name: Text,
-        quantity: Nat,
-        price: Nat,
-        location: Text,
         description: Text,
-        category: Text,
-        fertilizers: [Text],
-        certifications: [Text],
-        qualityMetrics: Types.QualityMetrics
-    ): async Types.ProductId {
-        let product: Types.Product = {
-            id = nextProductId;
-            name = name;
-            farmerId = msg.caller;
-            quantity = quantity;
-            price = price;
-            productionDate = Time.now();
-            location = location;
-            description = description;
-            category = category;
-            fertilizers = fertilizers;
-            certifications = certifications;
-            status = #Listed;
-            qualityMetrics = qualityMetrics;
+        price: Text,
+        quantity: Text,
+        status: ProductStatus,
+        farmerId: Text,
+        origin: Text
+    ) : async Product {
+        let newProduct : Product = {
+            id;
+            name;
+            description;
+            price;
+            quantity;
+            status;
+            farmerId;
+            origin;
         };
-
-        products.put(nextProductId, product);
-        nextProductId += 1;
-        nextProductId - 1
+        
+        products.add(newProduct);
+        return newProduct;
     };
 
-    // Get product by ID
-    public query func getProduct(productId: Types.ProductId): async ?Types.Product {
-        products.get(productId)
-    };
-
-    // Update product details
-    public shared(msg) func updateProduct(
-        productId: Types.ProductId,
-        quantity: ?Nat,
-        price: ?Nat,
-        description: ?Text,
-        certifications: ?[Text]
-    ): async Bool {
-        switch (products.get(productId)) {
-            case null { false };
-            case (?product) {
-                if (product.farmerId != msg.caller) {
-                    return false;
-                };
-
-                let updatedProduct: Types.Product = {
-                    id = product.id;
-                    name = product.name;
-                    farmerId = product.farmerId;
-                    quantity = Option.get(quantity, product.quantity);
-                    price = Option.get(price, product.price);
-                    productionDate = product.productionDate;
-                    location = product.location;
-                    description = Option.get(description, product.description);
-                    category = product.category;
-                    fertilizers = product.fertilizers;
-                    certifications = Option.get(certifications, product.certifications);
-                    status = product.status;
-                    qualityMetrics = product.qualityMetrics;
-                };
-
-                products.put(productId, updatedProduct);
-                true
-            };
-        }
-    };
-
-    // List all products
-    public query func getAllProducts(): async [Types.Product] {
-        var productList: [Types.Product] = [];
-        for ((id, product) in products.entries()) {
-            productList := Array.append(productList, [product]);
-        };
-        productList
-    };
-
-    // Search products by category
-    public query func searchProductsByCategory(category: Text): async [Types.Product] {
-        var results: [Types.Product] = [];
-        for ((id, product) in products.entries()) {
-            if (product.category == category) {
-                results := Array.append(results, [product]);
-            };
-        };
-        results
+    // Get all products
+    public query func getAllProducts() : async [Product] {
+        return Buffer.toArray(products);
     };
 
     // Update product status
-    public shared(msg) func updateProductStatus(
-        productId: Types.ProductId,
-        newStatus: Types.ProductStatus
-    ): async Bool {
-        switch (products.get(productId)) {
-            case null { false };
-            case (?product) {
-                if (product.farmerId != msg.caller) {
-                    return false;
+    public shared(msg) func updateProductStatus(id: Text, newStatus: ProductStatus) : async Bool {
+        var found = false;
+        let size = products.size();
+        
+        for (i in Iter.range(0, size - 1)) {
+            let product = products.get(i);
+            if (product.id == id) {
+                let updatedProduct : Product = {
+                    id = product.id;
+                    name = product.name;
+                    description = product.description;
+                    price = product.price;
+                    quantity = product.quantity;
+                    status = newStatus;
+                    farmerId = product.farmerId;
+                    origin = product.origin;
                 };
-
-                let updatedProduct: Types.Product = {
-                    product with status = newStatus;
-                };
-
-                products.put(productId, updatedProduct);
-                true
+                products.put(i, updatedProduct);
+                found := true;
+                break;
             };
-        }
+        };
+        
+        return found;
     };
-};
+
+    // Get product by ID
+    public query func getProduct(id: Text) : async ?Product {
+        let productArray = Buffer.toArray(products);
+        for (product in productArray.vals()) {
+            if (product.id == id) {
+                return ?product;
+            };
+        };
+        return null;
+    };
+}

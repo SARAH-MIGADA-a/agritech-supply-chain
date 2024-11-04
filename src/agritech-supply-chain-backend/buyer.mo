@@ -12,6 +12,7 @@ module {
     type Buyer = Types.Buyer;
     type BuyerId = Types.BuyerId;
     type TransactionId = Types.TransactionId;
+    type ContactInfo = Types.ContactInfo;
 
     public type BuyerStorage = {
         var buyers: HashMap.HashMap<BuyerId, Buyer>;
@@ -23,7 +24,15 @@ module {
         }
     };
 
-    public func createBuyer(storage: BuyerStorage, id : BuyerId, name : Text, location : Text) : ?Buyer {
+    public func createBuyer(
+        storage: BuyerStorage, 
+        id : BuyerId, 
+        name : Text, 
+        location : Text,
+        phone : Text,
+        email : Text,
+        address : Text
+    ) : ?Buyer {
         if (Option.isSome(storage.buyers.get(id))) {
             return null;
         };
@@ -33,6 +42,11 @@ module {
             name;
             location;
             purchaseHistory = [];
+            contactInfo = {
+                phone;
+                email;
+                address;
+            };
         };
 
         storage.buyers.put(id, newBuyer);
@@ -43,7 +57,15 @@ module {
         storage.buyers.get(id)
     };
 
-    public func updateBuyer(storage: BuyerStorage, id : BuyerId, name : ?Text, location : ?Text) : ?Buyer {
+    public func updateBuyer(
+        storage: BuyerStorage, 
+        id : BuyerId, 
+        name : ?Text, 
+        location : ?Text,
+        phone : ?Text,
+        email : ?Text,
+        address : ?Text
+    ) : ?Buyer {
         switch (storage.buyers.get(id)) {
             case (null) {
                 null;
@@ -54,6 +76,11 @@ module {
                     name = Option.get(name, existingBuyer.name);
                     location = Option.get(location, existingBuyer.location);
                     purchaseHistory = existingBuyer.purchaseHistory;
+                    contactInfo = {
+                        phone = Option.get(phone, existingBuyer.contactInfo.phone);
+                        email = Option.get(email, existingBuyer.contactInfo.email);
+                        address = Option.get(address, existingBuyer.contactInfo.address);
+                    };
                 };
                 storage.buyers.put(id, updatedBuyer);
                 ?updatedBuyer;
@@ -85,6 +112,7 @@ module {
                     name = existingBuyer.name;
                     location = existingBuyer.location;
                     purchaseHistory = updatedHistory;
+                    contactInfo = existingBuyer.contactInfo;
                 };
                 storage.buyers.put(buyerId, updatedBuyer);
                 true;
