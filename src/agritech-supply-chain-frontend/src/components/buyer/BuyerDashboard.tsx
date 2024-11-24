@@ -34,7 +34,7 @@ interface Product {
   name: string;
   price: number;
   description: string;
-  image: string; // Added image type
+  image: string;
 }
 
 const BuyerDashboard: React.FC = () => {
@@ -54,7 +54,8 @@ const BuyerDashboard: React.FC = () => {
     { id: '8', name: 'Herbal Tea', description: 'A blend of soothing herbal teas.', price: 10, image: '/assets/images/tea_image.jpg' },
     { id: '9', name: 'Chili Peppers', description: 'Spicy chili peppers for your dishes.', price: 7, image: '/assets/images/chillies_image.jpg' },
     { id: '10', name: 'Carrots', description: 'Crunchy carrots full of flavor.', price: 6, image: '/assets/images/carrots_image.jpg' },
-    // Add more products as needed
+    { id: '7', name: 'Dairy Milk', description: 'Fresh milk from local dairies.', price: 3, image: '/assets/images/milk_image.jpg' },
+    { id: '7', name: 'Dairy Milk', description: 'Fresh milk from local dairies.', price: 3, image: '/assets/images/milk_image.jpg' },
   ];
 
   const toggleDarkMode = () => setDarkMode(prevMode => !prevMode);
@@ -114,55 +115,92 @@ const BuyerDashboard: React.FC = () => {
           }}
         />
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">Product Catalog</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Browse a wide range of agricultural products from local farmers.
-                </Typography>
-                <Button variant="contained" component={Link} to="/buyer/catalog" style={{ backgroundColor: '#388E3C' }}>
-                  View Product Catalog
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
+<Grid container spacing={3}>
+  <Grid item xs={12} sm={6} md={4}>
+    <Card sx={{ 
+      height: '100%', 
+      backgroundColor: '#c1f5a4', // Luminous green
+      minHeight: '250px' // Ensures consistent height
+    }}>
+      <CardContent>
+        <Typography variant="h5" sx={{ color: '#4169E1' }}>Product Catalog</Typography>
+        <Typography variant="body2" sx={{ color: '#4169E1' }}>
+          Browse a wide range of agricultural products from local farmers.
+        </Typography>
+        <Button 
+          variant="contained" 
+          component={Link} 
+          to="/buyer/catalog" 
+          sx={{ 
+            backgroundColor: '#388E3C',
+            '&:hover': {
+              backgroundColor: '#2E7D32'
+            }
+          }}
+        >
+          View Product Catalog
+        </Button>
+      </CardContent>
+    </Card>
+  </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">Order History</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Check your past purchases of fresh produce.
-                </Typography>
-                <Button
-                  variant="contained"
-                  onClick={toggleOrderHistory}
-                  style={{ backgroundColor: '#388E3C' }}
-                >
-                  {showOrderHistory ? 'Hide Order History' : 'View Order History'}
-                  <ShoppingCartIcon style={{ marginLeft: '5px' }} />
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
+  <Grid item xs={12} sm={6} md={4}>
+    <Card sx={{ 
+      height: '100%', 
+      backgroundColor: '#c1f5a4',
+      minHeight: '250px'
+    }}>
+      <CardContent>
+        <Typography variant="h5" sx={{ color: '#4169E1' }}>Order History</Typography>
+        <Typography variant="body2" sx={{ color: '#4169E1' }}>
+          Check your past purchases of fresh produce.
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={toggleOrderHistory}
+          sx={{ 
+            backgroundColor: '#388E3C',
+            '&:hover': {
+              backgroundColor: '#2E7D32'
+            }
+          }}
+        >
+          {showOrderHistory ? 'Hide Order History' : 'View Order History'}
+          <ShoppingCartIcon style={{ marginLeft: '5px' }} />
+        </Button>
+      </CardContent>
+    </Card>
+  </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">Order Tracking</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Track your ongoing orders of agricultural products.
-                </Typography>
-                <Button variant="contained" component={Link} to="/tracking" style={{ backgroundColor: '#388E3C' }}>
-                  Track Orders
-                  <TrackChangesIcon style={{ marginLeft: '5px' }} />
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+  <Grid item xs={12} sm={6} md={4}>
+    <Card sx={{ 
+      height: '100%', 
+      backgroundColor: '#c1f5a4',
+      minHeight: '250px'
+    }}>
+      <CardContent>
+        <Typography variant="h5" sx={{ color: '#4169E1' }}>Order Tracking</Typography>
+        <Typography variant="body2" sx={{ color: '#4169E1' }}>
+          Track your ongoing orders of agricultural products.
+        </Typography>
+        <Button 
+          variant="contained" 
+          component={Link} 
+          to="/tracking" 
+          sx={{ 
+            backgroundColor: '#388E3C',
+            '&:hover': {
+              backgroundColor: '#70FF49'
+            }
+          }}
+        >
+          Track Orders
+          <TrackChangesIcon style={{ marginLeft: '5px' }} />
+        </Button>
+      </CardContent>
+    </Card>
+  </Grid>
+</Grid>
 
         <Typography variant="h5" style={{ marginTop: '30px' }}>
           Featured Products
@@ -170,14 +208,23 @@ const BuyerDashboard: React.FC = () => {
         <Grid container spacing={3}>
           {products.map(product => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
-              <Card>
+              <Card className="product-card">
                 <CardContent>
-                  <img src={product.image} alt={product.name} style={{ width: '100%', height: 'auto' }} />
+                  <img src={product.image} alt={product.name} className="product-card-image" />
                   <Typography variant="h6">{product.name}</Typography>
                   <Typography variant="body2" color="text.secondary">Price: ${product.price}</Typography>
-                  <Button variant="contained" onClick={() => handleProductView(product)} style={{ backgroundColor: '#388E3C' }}>
-                    View Details
-                  </Button>
+                  <Button 
+  variant="contained" 
+  onClick={() => handleProductView(product)}
+  sx={{ 
+    backgroundColor: '#388E3C',
+    '&:hover': {
+      backgroundColor: '#2E7D32'
+    }
+  }}
+>
+  Add To Cart
+</Button>
                 </CardContent>
               </Card>
             </Grid>
@@ -192,7 +239,7 @@ const BuyerDashboard: React.FC = () => {
                 <Typography variant="body2">{selectedProduct.description}</Typography>
                 <Typography variant="body2">Price: ${selectedProduct.price}</Typography>
                 <Button variant="contained" onClick={handleHideDetails} style={{ backgroundColor: '#f44336' }}>
-                  Close
+                  Cancel 
                 </Button>
               </CardContent>
             </Card>

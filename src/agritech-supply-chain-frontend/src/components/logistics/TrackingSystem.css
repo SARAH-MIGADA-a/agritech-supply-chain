@@ -4,8 +4,8 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #57e496; /* Light background color for the entire page */
-  width: 243vh;
+  background-color: #f8f8f8; /* Light background color for the entire page */
+  width: 100vw;
 }
 
 .order-tracking-header {

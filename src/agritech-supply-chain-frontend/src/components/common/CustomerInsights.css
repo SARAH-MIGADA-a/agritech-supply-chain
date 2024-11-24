@@ -1,17 +1,35 @@
 .customer-insights-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #979494; /* Light background for the entire page */
-    width: 242vh;
-    
-  }
-  
-  .insight-card, .feedback-card {
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .insight-card:hover, .feedback-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.insight-card, .feedback-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.insight-card:hover, .feedback-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.insight-card .MuiCardContent-root, 
+.feedback-card .MuiCardContent-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.insight-card .MuiButton-root {
+  align-self: flex-start;
+  margin-top: auto;
+}

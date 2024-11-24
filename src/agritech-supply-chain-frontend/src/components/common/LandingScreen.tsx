@@ -46,7 +46,7 @@ const LandingScreen: React.FC = () => {
       <section className="hero-section" style={{ backgroundImage: `url(${images[currentImageIndex]})` }}>
         <div className="hero-content">
           <h1 className="headline">Pure Agricultural Products</h1>
-          <p className="subheadline">Welcome to Agritech. We believe in better agriculture for a better future.</p>
+          <p className="subheadline">Welcome to Agertech. We believe in better agriculture for a better future.</p>
           <p className="welcome-message">Join us on this journey towards sustainable agriculture!</p>
           <button className="cta-button" onClick={scrollToAbout}>
             Discover More
@@ -56,9 +56,9 @@ const LandingScreen: React.FC = () => {
 
       {/* About Us Section */}
       <section className="about-section" ref={aboutRef}>
-        <h2>About Agritech</h2>
+        <h2>About Agertech</h2>
         <p>
-          At Agritech, we are dedicated to delivering high-quality, sustainable agricultural solutions that ensure a healthy future for our planet. Our commitment lies in promoting innovative farming practices that enhance productivity while protecting our environment. By empowering local farmers through education and resources, we foster resilient communities that thrive on biodiversity. We believe in combining modern technology with traditional methods to create a sustainable food system that nourishes people and the planet. Together, we can combat climate change and pave the way for a greener tomorrow.
+          At Agertech, we are dedicated to delivering high-quality, sustainable agricultural solutions that ensure a healthy future for our planet. Our commitment lies in promoting innovative farming practices that enhance productivity while protecting our environment. By empowering local farmers through education and resources, we foster resilient communities that thrive on biodiversity. We believe in combining modern technology with traditional methods to create a sustainable food system that nourishes people and the planet. Together, we can combat climate change and pave the way for a greener tomorrow.
         </p>
 
         <div className="about-images">
@@ -132,7 +132,7 @@ const LandingScreen: React.FC = () => {
       <section className="cta-section">
         <h2>Join Us in the Journey</h2>
         <p>Be a part of our mission to transform agriculture. Together, we can create a better future. Join us in promoting sustainable practices that empower local farmers and protect our planet, ensuring a resilient agricultural community for generations to come.</p>
-        <button onClick={handleGetStarted} className="cta-button">Get Started with Agritech</button>
+        <button onClick={handleGetStarted} className="cta-button">Get Started with Agertech</button>
       </section>
     </div>
   );

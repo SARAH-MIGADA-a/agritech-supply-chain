@@ -15,8 +15,10 @@ const ProductCatalog = () => {
     { id: '6', name: 'Seasonal Fruits', description: 'A selection of seasonal fruits.', price: '$20', farmer: 'Fruit Farmer Joe', farm: 'Fruitful Farm', image: 'assets/images/fruits_image.jpg' },
     { id: '7', name: 'Dairy Milk', description: 'Fresh milk from local dairies.', price: '$3', farmer: 'Dairy Dan', farm: 'Happy Cow Dairy', image: '/assets/images/milk_image.jpg' },
     { id: '8', name: 'Herbal Tea', description: 'A blend of soothing herbal teas.', price: '$10', farmer: 'Tea Master Liu', farm: 'Zen Teas', image: '/assets/images/tea_image.jpg' },
-    { id: '9', name: 'Chili Peppers', description: 'Spicy chili peppers for your dishes.', price: '$7', farmer: 'Spicy Sam', farm: 'Chili Farm', image: '/assets/images/chillies_image' },
-    { id: '10', name: 'Carrots', description: 'Crunchy carrots full of flavor.', price: '$6', farmer: 'Veggie Pete', farm: 'Rooted Veggies', image: '/assets/images/carrots_image' },
+    { id: '9', name: 'Chili Peppers', description: 'Spicy chili peppers for your dishes.', price: '$7', farmer: 'Spicy Sam', farm: 'Chili Farm', image: '/assets/images/chillies_image.jpg' },
+    { id: '10', name: 'Carrots', description: 'Crunchy carrots full of flavor.', price: '$6', farmer: 'Veggie Pete', farm: 'Rooted Veggies', image: '/assets/images/carrots_image.jpg' },
+    { id: '6', name: 'Seasonal Fruits', description: 'A selection of seasonal fruits.', price: '$20', farmer: 'Fruit Farmer Joe', farm: 'Fruitful Farm', image: 'assets/images/fruits_image.jpg' },
+    { id: '6', name: 'Seasonal Fruits', description: 'A selection of seasonal fruits.', price: '$20', farmer: 'Fruit Farmer Joe', farm: 'Fruitful Farm', image: 'assets/images/fruits_image.jpg' },
     // Add more products as needed
   ];
 

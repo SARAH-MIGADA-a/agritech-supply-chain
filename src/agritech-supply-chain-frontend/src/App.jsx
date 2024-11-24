@@ -21,6 +21,7 @@ import MarketTrends from './components/farmer/MarketTrends'; // New import
 import { AuthProvider } from './contexts/AuthContext'; 
 import TopProductsDetails from './components/common/TopProductsDetails'; // Import TopProductsDetails
 import ViewProfile from './components/common/ViewProfile'; 
+import Layout from './components/common/Layout';
 const App = () => {
   return (
     <AuthProvider>
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/create-order" element={<CreateNewOrder />} />
             <Route path="/update-farm-info" element={<UpdateFarmInfo />} />
             <Route path="/icp" element={<CustomerInsights />} />
+            <Route path="/layout" element={<Layout/>}/>
             {/* New Routes for the components */}
             <Route path="/inventory-management" element={<InventoryManagement />} />
             <Route path="/logistics-management" element={<LogisticsManagement />} />

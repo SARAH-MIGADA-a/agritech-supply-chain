@@ -4,8 +4,8 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #72f198; /* Light background */
-    width: 243vh;
+    background-color: #f7f7f7; /* Light background */
+    width: 100vw;
   }
   .product-image {
     width: 100%; /* Make image fill the card width */
@@ -33,6 +33,7 @@
   .product-card {
     transition: box-shadow 0.3s ease; /* Smooth shadow transition */
     border-radius: 8px; /* Rounded corners */
+    background-color: #6cf511;
   }
   
   .product-card:hover {

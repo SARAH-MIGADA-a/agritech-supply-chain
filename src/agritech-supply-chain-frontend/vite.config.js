@@ -15,6 +15,11 @@ export default defineConfig({
       define: {
         global: "globalThis",
       },
+      // Add support for TypeScript
+      loader: {
+        '.ts': 'tsx',
+        '.tsx': 'tsx',
+      },
     },
   },
   server: {
@@ -26,7 +31,12 @@ export default defineConfig({
     },
   },
   plugins: [
-    react(),
+    react({
+      // Add JSX runtime
+      jsxRuntime: 'automatic',
+      // Add Fast Refresh
+      fastRefresh: true,
+    }),
     environment("all", { prefix: "CANISTER_" }),
     environment("all", { prefix: "DFX_" }),
   ],
@@ -39,5 +49,13 @@ export default defineConfig({
         ),
       },
     ],
+    // Add extensions to resolve
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
+  },
+  // Add esbuild configuration
+  esbuild: {
+    loader: 'tsx',
+    include: /\.[tj]sx?$/,
+    exclude: [],
   },
 });

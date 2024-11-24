@@ -72,14 +72,34 @@ const LoginSignupScreen: React.FC = () => {
             <Button
               variant={isLogin ? "contained" : "outlined"}
               onClick={() => setIsLogin(true)}
-              sx={{ flex: 1, mr: 1 }}
+              sx={{ 
+                flex: 1, 
+                mr: 1,
+                backgroundColor: isLogin ? '#4caf50' : 'transparent',
+                color: isLogin ? 'white' : '#4caf50',
+                borderColor: '#4caf50',
+                '&:hover': {
+                  backgroundColor: isLogin ? '#45a049' : 'rgba(76, 175, 80, 0.1)',
+                  borderColor: '#45a049'
+                }
+              }}
             >
               Login
             </Button>
             <Button
               variant={!isLogin ? "contained" : "outlined"}
               onClick={() => setIsLogin(false)}
-              sx={{ flex: 1, ml: 1 }}
+              sx={{ 
+                flex: 1, 
+                ml: 1,
+                backgroundColor: !isLogin ? '#4caf50' : 'transparent',
+                color: !isLogin ? 'white' : '#4caf50',
+                borderColor: '#4caf50',
+                '&:hover': {
+                  backgroundColor: !isLogin ? '#45a049' : 'rgba(76, 175, 80, 0.1)',
+                  borderColor: '#45a049'
+                }
+              }}
             >
               Signup
             </Button>
@@ -166,7 +186,15 @@ const LoginSignupScreen: React.FC = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, height: '46px' }}
+              sx={{ 
+                mt: 3, 
+                mb: 2, 
+                height: '46px',
+                backgroundColor: '#4caf50',
+                '&:hover': {
+                  backgroundColor: '#45a049'
+                }
+              }}
             >
               {isLogin ? 'Sign In' : 'Sign Up'}
             </Button>
@@ -176,7 +204,13 @@ const LoginSignupScreen: React.FC = () => {
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <Button
               onClick={() => setIsLogin(!isLogin)}
-              sx={{ textTransform: 'none' }}
+              sx={{ 
+                textTransform: 'none',
+                color: '#4caf50',
+                '&:hover': {
+                  backgroundColor: 'rgba(76, 175, 80, 0.1)'
+                }
+              }}
             >
               {isLogin ? 'Sign Up' : 'Sign In'}
             </Button>

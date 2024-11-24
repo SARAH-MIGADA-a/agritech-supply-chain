@@ -1,23 +1,56 @@
-/* src/components/buyer/BuyerDashboard.css */
-
+/* Dashboard Container */
 .buyer-dashboard {
-    height: 200vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #89f392; /* Light background */
-    color: #333; /* Default text color */
-    width: 243vh;
+  height: 100vh; /* Full height */
+  display: flex;
+  flex-direction: column;
+  background-color: #fff; /* White background */
+  color: #333; /* Text color */
+  width: 100%; /* Full width */
+}
+
+.buyer-dashboard.dark-mode {
+  background-color: #121212; /* Dark background for dark mode */
+  color: #fff; /* Text color for dark mode */
+}
+
+/* Product Card Styling */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b2f947; /* Luminous green background */
+  border: 1px solid #a1fd64; /* Green border */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 350px; /* Fixed height for uniformity */
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.03); /* Slight zoom on hover */
+}
+
+.product-card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.product-card-button {
+  background-color: #388e3c;
+  color: rgb(96, 209, 51);
+  margin-top: auto;
+}
+
+.product-card-button:hover {
+  background-color: #2e7d32;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .product-card {
+    height: 100%; /* Adjust height for smaller screens */
   }
-  
-  .buyer-dashboard.dark-mode {
-    background-color: #333; /* Dark background */
-    color: #fff; /* Light text color */
-  }
-  
-  .content {
-    flex-grow: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
+}

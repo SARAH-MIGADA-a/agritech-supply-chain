@@ -1,78 +1,186 @@
-.dashboard-header {
-  background-color: #388E3C; /* Background color */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Shadow effect */
-  padding: 10px 20px; /* Padding */
-  width: 100%; /* Make sure it covers the full width */
-  position: relative; /* This can help if you have any absolute positioned elements inside */
-  left: 0; /* Align to the left edge */
-  right: 0; /* Align to the right edge */
-  z-index: 10; /* Bring it to the front if there are overlapping elements */
+/* Modern Dashboard Styling */
+:root {
+  --primary-color: #388E3C;
+  --secondary-color: #52f531;
+  --hover-color: #45c628;
+  --background-light: #f8f8f8;
+  --background-dark: #1a1a1a;
+  --card-light: #ffffff;
+  --card-dark: #2d2d2d;
+  --text-light: #333333;
+  --text-dark: #ffffff;
+  --transition-speed: 0.3s;
 }
 
-
+/* Base Styles */
 .dashboard-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0 0px;
-  width: 100%;
-  background-image: url('assets/images/background-img.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--background-light);
+  transition: background-color var(--transition-speed) ease;
 }
 
+.dashboard-container.dark-mode {
+  background: var(--background-dark);
+  color: var(--text-dark);
+}
 
+/* Header Styling */
 .dashboard-header {
-  background-color: #388E3C;
-  color: white;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+  padding: 0.8rem 1.5rem !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 .dashboard-title {
-  flex-grow: 1;
-  font-size: 24px;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+  background: linear-gradient(45deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* Content Area */
 .dashboard-content {
-  .dashboard-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: transparent; /* Makes content background see-through */
-  }
-  
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .welcome-title {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #388E3C;
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 2rem !important;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
 }
 
+/* Button Styling */
 .button-group {
-  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
+.MuiButton-contained {
+  border-radius: 25px !important;
+  padding: 0.8rem 1.5rem !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  transition: transform var(--transition-speed) ease, 
+              box-shadow var(--transition-speed) ease !important;
+}
+
+.MuiButton-contained:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Card Styling */
 .card {
-  transition: box-shadow 0.3s ease;
-  background-color: #e8f5e9; /* Light green background for cards */
+  border-radius: 15px !important;
+  background: var(--card-light) !important;
+  backdrop-filter: blur(10px);
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .card {
+  background: var(--card-dark) !important;
 }
 
 .card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15) !important;
 }
 
-.card .MuiTypography-root {
-  color: #388E3C;
+.card .MuiTypography-h5 {
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 1rem !important;
+  color: var(--primary-color);
 }
 
-button.MuiButton-contained {
-  background-color: #388E3C;
-  color: white;
-  margin: 5px;
+.dark-mode .card .MuiTypography-h5 {
+  color: var(--secondary-color);
 }
 
-button.MuiButton-contained:hover {
-  background-color: #45c628;
+/* Grid Layout */
+.MuiGrid-container {
+  margin-top: 2rem !important;
+}
+
+.MuiGrid-item {
+  padding: 1rem !important;
+}
+
+/* Modal Styling */
+.MuiModal-root .MuiBox-root {
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .MuiModal-root .MuiBox-root {
+  background: rgba(45, 45, 45, 0.95);
+  color: var(--text-dark);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+  
+  .welcome-title {
+    font-size: 2rem !important;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .MuiButton-contained {
+    width: 100%;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-color);
 }
