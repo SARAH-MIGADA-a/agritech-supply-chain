@@ -1,0 +1,50 @@
+/* Analytics.css */
+
+.analytics-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #c3eec2; /* Light background color */
+    width:243vh;
+  }
+  
+  .analytics-header {
+    background-color: #3f51b5; /* Material-UI primary color */
+    color: white;
+  }
+  
+  .analytics-title {
+    flex-grow: 1;
+    font-size: 24px; /* Title font size */
+  }
+  
+  .analytics-content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .analytics-card {
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+    border-radius: 8px; /* Rounded corners */
+  }
+  
+  .analytics-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+  }
+  
+  .analytics-metric-title {
+    font-size: 20px; /* Metric title font size */
+  }
+  
+  .analytics-metric-value {
+    font-size: 24px; /* Metric value font size */
+    font-weight: bold; /* Bold font weight for values */
+    margin-top: 10px; /* Spacing for value */
+  }
+  
+  .charts-placeholder {
+    text-align: center; /* Center align the charts placeholder */
+    margin-top: 40px; /* Spacing above the charts */
+    color: #666; /* Color for the description text */
+  }
+  

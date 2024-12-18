@@ -1,0 +1,66 @@
+/* ProductCatalog.css */
+
+.catalog-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #72f198; /* Light background */
+    width: 243vh;
+  }
+  .product-image {
+    width: 100%; /* Make image fill the card width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 4px; /* Optional: rounded corners for image */
+    margin-bottom: 10px; /* Space below image */
+}
+
+  
+  .catalog-header {
+    background-color: #3f51b5; /* Material-UI primary color */
+    color: white;
+  }
+  
+  .catalog-title {
+    flex-grow: 1;
+    font-size: 24px;
+  }
+  
+  .catalog-content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .product-card {
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+    border-radius: 8px; /* Rounded corners */
+  }
+  
+  .product-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+  }
+  
+  .product-title {
+    font-size: 20px; /* Title font size */
+  }
+  
+  .product-description {
+    color: #666; /* Description color */
+    margin: 10px 0; /* Spacing for description */
+  }
+  
+  .product-price {
+    font-size: 18px; /* Price font size */
+    font-weight: bold; /* Bold price */
+    margin: 10px 0; /* Spacing for price */
+  }
+  
+  .view-details-button {
+    margin-top: 10px; /* Space above the button */
+    background-color: #3f51b5; /* Button color matching header */
+    color: white; /* Button text color */
+  }
+  
+  .view-details-button:hover {
+    background-color: #303f9f; /* Darker shade on hover */
+  }
+  

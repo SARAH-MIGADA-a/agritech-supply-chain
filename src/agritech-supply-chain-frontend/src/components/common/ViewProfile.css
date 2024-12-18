@@ -1,0 +1,69 @@
+/* ViewProfile.css */
+
+/* General styles for the container */
+.container {
+    padding: 50px; /* Reduced padding for better use of space */
+    width: 150%; /* Full width */
+    height: 100vh; /* Full height */
+    display: flex; /* Use flex to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    background-color: #65c065; /* Light background color for contrast */
+  }
+  
+  /* Card styles */
+  .card {
+    padding: 20px; /* Padding inside the card */
+    background-color: #458d5b; /* Card background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    width: 100%; /* Full width of the card */
+    max-width: 600px; /* Max width to avoid stretching */
+    overflow: hidden; /* Prevent overflow from inner elements */
+  }
+  
+  /* Typography styles */
+  .MuiTypography-h5 {
+    font-size: 1.5rem; /* Font size for the title */
+    margin-bottom: 20px; /* Space below the title */
+    color: #333; /* Dark color for the title */
+  }
+  
+  /* Image styles */
+  img {
+    margin-bottom: 15px; /* Space below the image */
+  }
+  
+  /* Input field styles */
+  .MuiTextField-root {
+    margin-bottom: 15px; /* Space below each text field */
+  }
+  
+  /* Button styles */
+  .MuiButton-contained {
+    background-color: #388E3C; /* Green for save changes button */
+    color: white; /* White text color */
+  }
+  
+  .MuiButton-contained:hover {
+    background-color: #2e7d32; /* Darker green on hover */
+  }
+  
+  .MuiButton-root {
+    margin-top: 20px; /* Space above buttons */
+  }
+  
+  .MuiButton-contained {
+    margin-left: 10px; /* Space between buttons */
+  }
+  
+  /* Delete account button */
+  .MuiButton-contained.MuiButton-containedSecondary {
+    background-color: #f44336; /* Red for delete account button */
+    color: white; /* White text color */
+  }
+  
+  .MuiButton-contained.MuiButton-containedSecondary:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+  }
+  
